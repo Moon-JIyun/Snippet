@@ -1,0 +1,40 @@
+###
+Snippet for converting raw to jpg.
+This is for 10bit raw file convert.
+###
+
+from PIL import Image
+import numpy as np
+import os
+
+
+file_names = os.listdir(r'H:\data\CT3\1\V')
+save_folder_plus = r'H:\data\CT3\1\new_V'
+save_folder_minus = r'H:\data\CT3\1\new_V-'
+dir = r'H:\data\CT3\1\V'
+
+
+
+width = 4000
+height = 3000
+for file_name in file_names:
+    file = os.path.join(dir, file_name)
+    with open(file, "rb") as f:
+
+     raw_data = np.fromfile(f, dtype=np.uint16)
+    raw_data = raw_data >> 2
+    raw_data = raw_data.astype(np.uint8)
+
+    img = Image.frombytes("L", (width, height), raw_data)
+    if file_name[0] =="-":
+        output = os.path.join(save_folder_minus, file_name[0:-4])
+        new_fileName = output + '.jpg'
+        img.save(new_fileName, "jpeg")
+    else:
+        output = os.path.join(save_folder_plus, file_name[0:-4])
+        new_fileName = output+'.jpg'
+        img.save(new_fileName, "jpeg")
+
+
+
+
