@@ -62,3 +62,19 @@ class VersionCheck {
     
 }
 ```
+
+### example
+```swift
+  // 앱 버전 체크하기
+  VersionCheck.shared.checkAppStore{ shouldUpdateApp, version in
+      print("IS NEW VERSION AVAILABLE: shouldUpdateApp : \(shouldUpdateApp), APP STORE VERSION: \(String(describing: version))")
+      if shouldUpdateApp { // 앱 업데이트 있음
+          self.alertInfo = JsAlert("앱 업데이트가 있습니다.", "확인")
+          return
+      } else { // 앱 업데이트 없음
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) { 
+             /// 원하는 로직 처리
+          }
+      }
+  }
+```
